@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { Link } from "react-router-dom";
-import { getUsersListThunk } from "../redux/actions";
+import { DeleteUserThunk, getUsersListThunk } from "../redux/actions";
 
 export function UserList() {
   const dispatch = useDispatch();
@@ -15,7 +15,7 @@ export function UserList() {
   }, []);
 
   const handleDelete = (id) => {
-    // dispatch(userDeleted({ id }));
+    dispatch(DeleteUserThunk(id));
   };
 
   return (

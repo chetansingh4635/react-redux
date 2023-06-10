@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom/cjs/react-router-dom";
+import { EditUserThunk, addUserThunk } from "../redux/actions";
 
 export const AddUser = (props) => {
   const dispatch = useDispatch();
@@ -32,13 +33,20 @@ export const AddUser = (props) => {
 
   const handleClick = () => {
     if (name && email && mobile && address) {
-      // dispatch(
-      //   userAdded({
-      //     id: usersAmount + 1,
-      //     name,
-      //     email,
-      //   })
-      // );
+      if(props.isEdit){
+        dispatch(EditUserThunk(
+          {
+            id:user?.id, name, email, mobile, address
+          }
+        ));
+      }else {
+        dispatch(addUserThunk(
+          {
+            name, email, mobile, address
+          }
+        ));
+      }
+   
 
       setError(null);
       history.push("/");
@@ -48,6 +56,8 @@ export const AddUser = (props) => {
 
     setName("");
     setEmail("");
+    setMobile("");
+    setAddress("");
   };
 
   return (
@@ -61,7 +71,7 @@ export const AddUser = (props) => {
           <input
             className="u-full-width"
             type="text"
-            placeholder="test@mailbox.com"
+            placeholder="Your Name"
             id="nameInput"
             onChange={handleName}
             value={name}
@@ -70,7 +80,7 @@ export const AddUser = (props) => {
           <input
             className="u-full-width"
             type="email"
-            placeholder="test@mailbox.com"
+            placeholder="Your Email"
             id="emailInput"
             onChange={handleEmail}
             value={email}
@@ -79,15 +89,14 @@ export const AddUser = (props) => {
           <input
             className="u-full-width"
             type="number"
-            placeholder="9887767752"
+            placeholder="Your Contact Number"
             id="mobileInput"
             onChange={handleMobile}
             value={mobile}
           />
           <label htmlFor="handleAddress">Address</label>
           <textarea
-            type="number"
-            placeholder="9887767752"
+            placeholder="Your Address"
             id="addressInput"
             onChange={handleAddress}
             value={address}

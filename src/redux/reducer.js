@@ -4,7 +4,6 @@ const defaultState = {
     users: []
 }
 const userReducer = (state = defaultState, action) => {
-    console.log('action', action)
     switch (action.type) {
         case "USER_LIST":
             return {
@@ -14,18 +13,18 @@ const userReducer = (state = defaultState, action) => {
         case "ADD_USER":
             return {
                 ...state,
-                users: state.users.push(action.payload)
+                users: state.users.concat([action.payload])
             }
         case "EDIT_USER": {
-            const users = state.users.filter(user => user.id !== action.payload.id);
+            const users = state.users.filter(user => user.id !== action.payload);
             return {
                 ...state,
-                users: users.push(action.payload)
+                users: users.concat([action.payload])
             }
         }
 
         case "DELETE_USER": {
-            const users = state.users.filter(user => user.id !== action.payload.id);
+            const users = state.users.filter(user => user.id !== action.payload);
             return {
                 ...state,
                 users: users

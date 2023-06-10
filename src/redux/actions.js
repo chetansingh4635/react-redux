@@ -1,27 +1,48 @@
 
 // Async Actions
 export const getUsersListThunk = () => async (dispatch) => {
-        const response = await fetch('https://jsonplaceholder.typicode.com/users');
+    const response = await fetch('https://jsonplaceholder.typicode.com/users');
+    const users = await response.json();
+    dispatch(setUsersList(users))
+}
+
+export const addUserThunk = (data) => async (dispatch) => {
+    const response = await fetch('https://jsonplaceholder.typicode.com/users', {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+            'Content-type': 'application/json; charset=UTF-8',
+        },
+    });
+    const users = await response.json();
+    dispatch(addUser({ ...data, id: Math.floor(Math.random() * 100) }))
+}
+
+export const EditUserThunk = (data) => async (dispatch) => {
+    try {
+        const response = await fetch(`https://jsonplaceholder.typicode.com/users/${data.id}`,
+            {
+                method: 'PUT',
+                body: JSON.stringify(data),
+                headers: {
+                    'Content-type': 'application/json; charset=UTF-8',
+                },
+            });
         const users = await response.json();
-        dispatch(setUsersList(users))
+    } catch (e) {
+    } finally {
+        dispatch(updateUser(data))
+    }
 }
 
-export const addUserThunk = (user) => async (dispatch) => {
-    const response = await fetch('https://jsonplaceholder.typicode.com/users');
+export const DeleteUserThunk = (data) => async (dispatch) => {
+    const response = await fetch(`https://jsonplaceholder.typicode.com/users/${data.id}`,
+        {
+            method: 'DELETE'
+        }
+    );
     const users = await response.json();
-    dispatch(addUser(users))
-}
-
-export const EditUserThunk = (user) => async (dispatch) => {
-    const response = await fetch('https://jsonplaceholder.typicode.com/users');
-    const users = await response.json();
-    dispatch(updateUser(users))
-}
-
-export const DeleteUserThunk = (user) => async (dispatch) => {
-    const response = await fetch('https://jsonplaceholder.typicode.com/users');
-    const users = await response.json();
-    dispatch(deleteUser(users))
+    dispatch(deleteUser(data))
 }
 
 
@@ -47,9 +68,9 @@ export const updateUser = (data) => {
     }
 }
 
-export const deleteUser = (data) => {
+export const deleteUser = (id) => {
     return {
         type: "DELETE_USER",
-        payload: data
+        payload: id
     }
 }
