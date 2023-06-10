@@ -1,4 +1,3 @@
-// import { fetchUsers, userDeleted } from "./usersSlice";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -10,10 +9,11 @@ export function UserList() {
 
   const users = useSelector((state) => state.user.users);
   const loading = useSelector((state) => state.loading);
-console.log('users', users)
-  useEffect(()=>{
+
+  useEffect(() => {
     dispatch(getUsersList())
-  }, [])
+  }, []);
+
   const handleDelete = (id) => {
     // dispatch(userDeleted({ id }));
   };
@@ -21,19 +21,10 @@ console.log('users', users)
   return (
     <div className="container">
       <div className="row">
-        <h1>Redux CRUD User app</h1>
       </div>
       <div className="row">
         <div className="two columns">
-          <button
-            onClick={() => dispatch(getUsersList())}
-            className="button-primary"
-          >
-            Load users
-          </button>
-        </div>
-        <div className="two columns">
-          <Link to="/add-user">
+          <Link to="/add">
             <button className="button-primary">Add user</button>
           </Link>
         </div>
@@ -60,7 +51,7 @@ console.log('users', users)
                     <td>{email}</td>
                     <td>
                       <button onClick={() => handleDelete(id)}>Delete</button>
-                      <Link to={`/edit-user/${id}`}>
+                      <Link to={`/edit/${id}`}>
                         <button>Edit</button>
                       </Link>
                     </td>

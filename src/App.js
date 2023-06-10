@@ -1,9 +1,10 @@
 import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
 
 import { AddUser } from "./components/AddUser";
-import { EditUser } from "./components/EditUser";
 import React from "react";
 import { UserList } from "./components/UserList";
+import { Login } from "./components/Login";
+import { Signup } from "./components/Signup";
 
 export default function App() {
   return (
@@ -13,17 +14,17 @@ export default function App() {
           <Route path="/add">
             <AddUser />
           </Route>
-          <Route path="/edit">
-            <EditUser />
+          <Route path="/edit/:id">
+            <AddUser isEdit={true} />
           </Route>
-          <Route path="/">
+          <Route path="/" exact={true}>
             <UserList />
           </Route>
           <Route path="/login">
-            <UserList />
+            <Login />
           </Route>
           <Route path="/signup">
-            <UserList />
+            <Signup />
           </Route>
         </Switch>
       </div>
